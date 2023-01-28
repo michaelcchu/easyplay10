@@ -20,7 +20,7 @@ export default (() => {
     document.addEventListener("keydown", moveCursor);
 
     let loadPromise; let parts; let track; let tieCount = 0;
-    parse("../data/Aus_meines_Herzens_Grunde.mxl");
+    parse("./data/Aus_meines_Herzens_Grunde.mxl");
     
     function getCurrentNote() {
         const osmdNote = osmd.cursor.NotesUnderCursor()[0];

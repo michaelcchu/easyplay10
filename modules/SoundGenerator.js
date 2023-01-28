@@ -13,8 +13,6 @@ export default (() => {
     let on = false;
     let normalGain;
     let tuning;
-    const val = {"c":0,"d":2,"e":4,"f":5,"g":7,"a":9,"b":11,"#":1,"&":-1,"":0};
-
 
     function initialize() {
         if (!on) {oscillator.start(); on = true;}
@@ -30,6 +28,8 @@ export default (() => {
     }
 
     function setTuning() {
+        const val = {"c":0,"d":2,"e":4,"f":5,"g":7,"a":9,"b":11,"#":1,"&":-1,
+            "":0};
         tuning = {
             pitch: val[tuningPitch.value] + val[tuningAccidental.value],
             octave: +tuningOctave.value,

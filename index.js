@@ -1,5 +1,5 @@
-import SoundGenerator from '/modules/SoundGenerator.js';
-import SheetMusicDisplay from '/modules/SheetMusicDisplay.js';
+import SoundGenerator from './modules/SoundGenerator.js';
+import SheetMusicDisplay from './modules/SheetMusicDisplay.js';
 
 start.addEventListener("click", begin);
 

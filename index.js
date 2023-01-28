@@ -1,27 +1,16 @@
 import SoundGenerator from './modules/SoundGenerator.js';
 import SheetMusicDisplay from './modules/SheetMusicDisplay.js';
 
-start.addEventListener("click", begin);
-
-document.querySelector(".side-panel-toggle").addEventListener("click", () => {
-    document.querySelector(".wrapper").classList.toggle("side-panel-close");
-});
-
-const badKeys = ["Alt","Arrow","Audio","Enter","Home","Launch","Meta","Play",
-    "Tab"];
-
 let activePress = null; let press;
-
-function begin() {
-    document.querySelector(".splash").classList.toggle("splash-toggle");
-}
 
 function key(e) { 
     function down(e) {
         const strPress = "" + press;
+        const badKeys = ["Alt","Arrow","Audio","Enter","Home","Launch","Meta",
+            "Play","Tab"];
         if (!badKeys.some(badKey => strPress.includes(badKey))
             && !e.repeat && (document.activeElement.nodeName !== 'INPUT') 
-            && (press != activePress)) {
+            && (press !== activePress)) {
                 SheetMusicDisplay.goToNextNote();
                 const note = SheetMusicDisplay.getCurrentNote();            
                 if (note) {                

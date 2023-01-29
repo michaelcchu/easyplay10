@@ -38,27 +38,29 @@ export default (() => {
     }
 
     function startPlaying(note, activePress) {
-        function toFreq(note) {
-            return tuning.frequency * 2**((note.pitch - tuning.pitch)/12 
-                + note.octave - tuning.octave)
+        if (on) {
+            function toFreq(note) {
+                return tuning.frequency * 2**((note.pitch - tuning.pitch)/12 
+                    + note.octave - tuning.octave)
+            }
+
+            const freq = toFreq(note);
+
+            let gain = 0;
+            if (freq > 0) {
+                gain = normalGain * (49 / freq);
+            }
+    
+            if (activePress === null) {
+                oscillator.frequency.value = freq;
+            } else {
+                oscillator.frequency.setTargetAtTime(freq, 
+                    audioContext.currentTime, 0.003);   
+            }
+    
+            gainNode.gain.setTargetAtTime(gain, 
+                audioContext.currentTime, 0.015);
         }
-
-        const freq = toFreq(note);
-
-        let gain = 0;
-        if (freq > 0) {
-            gain = normalGain * (49 / freq);
-        }
-
-        if (activePress === null) {
-            oscillator.frequency.value = freq;
-        } else {
-            oscillator.frequency.setTargetAtTime(freq, 
-                audioContext.currentTime, 0.003);   
-        }
-
-        gainNode.gain.setTargetAtTime(gain, 
-            audioContext.currentTime, 0.015);
     }
 
     function stopPlaying() {

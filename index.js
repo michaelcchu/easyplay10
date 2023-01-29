@@ -8,12 +8,14 @@ function key(e) {
         const strPress = "" + press;
         const badKeys = ["Alt","Arrow","Audio","Enter","Home","Launch","Meta",
             "Play","Tab"];
+        const splash = document.querySelector(".splash");
         if (!badKeys.some(badKey => strPress.includes(badKey))
             && !e.repeat && (document.activeElement.nodeName !== 'INPUT') 
-            && (press !== activePress)) {
+            && (press !== activePress) 
+            && splash.classList.contains("splash-toggle")) {
                 SheetMusicDisplay.goToNextNote();
                 const note = SheetMusicDisplay.getCurrentNote();            
-                if (note) {                
+                if (note) {
                     SoundGenerator.startPlaying(note, activePress);
                     activePress = press;
                 }

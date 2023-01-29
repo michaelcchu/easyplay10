@@ -24,7 +24,7 @@ export default (() => {
     
     function getCurrentNote() {
         const osmdNote = osmd.cursor.NotesUnderCursor()[0];
-        if (osmdNote && osmdNote.pitch !== undefined) {
+        if (osmdNote) {
             const pitch = osmdNote.pitch;
             const note = {
                 pitch: pitch.fundamentalNote + pitch.AccidentalHalfTones, 
@@ -72,7 +72,7 @@ export default (() => {
         
         // Skip rests
         while ((osmd.cursor.NotesUnderCursor().length > 0) 
-            && (osmd.cursor.NotesUnderCursor()[0].pitch === undefined)) {
+            && osmd.cursor.NotesUnderCursor()[0].isRest()) {
             osmd.cursor.next();
         }
 

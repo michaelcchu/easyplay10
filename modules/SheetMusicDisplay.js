@@ -19,7 +19,7 @@ export default (() => {
 
     document.addEventListener("keydown", moveCursor);
 
-    let loadPromise; let parts; let track; let tieCount = 0;
+    let loadPromise; let parts; let track;
     parse("./data/Aus_meines_Herzens_Grunde.mxl");
     
     function getCurrentNote() {
@@ -62,31 +62,45 @@ export default (() => {
     }
 
     function goToNextNote() {
+        osmd.cursor.next();
+
         // Skip tied notes
-        if (tieCount > 0) {
-            for (let i=0; i < tieCount; i++) {osmd.cursor.next();}
-            tieCount = 0;
+        while ((osmd.cursor.NotesUnderCursor().length > 0) 
+        && osmd.cursor.NotesUnderCursor()[0] 
+        && osmd.cursor.NotesUnderCursor()[0].tie) {
+            osmd.cursor.next();
         }
 
-        osmd.cursor.next();
-        
         // Skip rests
         while ((osmd.cursor.NotesUnderCursor().length > 0) 
             && osmd.cursor.NotesUnderCursor()[0].isRest()) {
             osmd.cursor.next();
+        }   
+    }
+
+    function goToPreviousNote() {
+        osmd.cursor.previous();
+
+        // Skip tied notes
+        while ((osmd.cursor.NotesUnderCursor().length > 0) 
+        && osmd.cursor.NotesUnderCursor()[0] 
+        && osmd.cursor.NotesUnderCursor()[0].tie
+        && osmd.cursor.NotesUnderCursor()[0].tie.StartNote 
+        !== osmd.cursor.NotesUnderCursor()[0]) {
+            osmd.cursor.previous();
         }
 
-        // if there's a tie, keep track of it
-        const note = osmd.cursor.NotesUnderCursor()[0];
-        if (note && (note.tie !== undefined)) {
-            tieCount = note.tie.notes.length - 1;
-        }        
+        // Skip rests
+        while ((osmd.cursor.NotesUnderCursor().length > 0) 
+            && osmd.cursor.NotesUnderCursor()[0].isRest()) {
+            osmd.cursor.previous();
+        }
     }
 
     function moveCursor(e) {
         if (document.activeElement.nodeName !== 'INPUT') {
-            if (e.key === "ArrowLeft") {osmd.cursor.previous();}
-            else if (e.key === "ArrowRight") {osmd.cursor.next();}
+            if (e.key === "ArrowLeft") {goToPreviousNote();}
+            else if (e.key === "ArrowRight") {goToNextNote();}
         }   
     }
 

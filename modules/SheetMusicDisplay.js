@@ -62,14 +62,16 @@ export default (() => {
     }
 
     function goToNextNote() {
-        osmd.cursor.next();
-
         // Skip tied notes
         while ((osmd.cursor.NotesUnderCursor().length > 0) 
         && osmd.cursor.NotesUnderCursor()[0] 
-        && osmd.cursor.NotesUnderCursor()[0].tie) {
+        && osmd.cursor.NotesUnderCursor()[0].tie
+        && osmd.cursor.NotesUnderCursor()[0].tie.Notes.at(-1)
+        !== osmd.cursor.NotesUnderCursor()[0]) {
             osmd.cursor.next();
         }
+
+        osmd.cursor.next();
 
         // Skip rests
         while ((osmd.cursor.NotesUnderCursor().length > 0) 

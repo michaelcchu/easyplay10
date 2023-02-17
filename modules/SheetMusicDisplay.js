@@ -37,7 +37,7 @@ export default (() => {
 
     function goToMeasure() {
         function getCurrentMeasure() {
-            return osmd.cursor.iterator.currentMeasureIndex + 1;
+            return osmd.cursor.iterator.currentMeasure.measureNumber;
         }
         if (osmd.cursor) {
             const measure = +measureInput.value;

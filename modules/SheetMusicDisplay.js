@@ -40,21 +40,24 @@ export default (() => {
             return osmd.cursor.iterator.currentMeasure.measureNumber;
         }
         if (osmd.cursor) {
-            const measure = +measureInput.value;
+            let measure = +measureInput.value;
             const first = osmd.sheet.FirstMeasureNumber;
             const last = osmd.sheet.LastMeasureNumber;
-            if ((first <= measure) && (measure <= last)) {
-                if (getCurrentMeasure() < measure) {
-                    while (getCurrentMeasure() < measure) {osmd.cursor.next();}
+            if (measure < first) {
+                measure = first;
+            } else if (measure > last) {
+                measure = last;
+            }
+            if (getCurrentMeasure() < measure) {
+                while (getCurrentMeasure() < measure) {osmd.cursor.next();}
+                osmd.cursor.previous();
+            } else if (getCurrentMeasure() > measure) {
+                if (measure === 1) {
+                    osmd.cursor.reset();
                     osmd.cursor.previous();
-                } else if (getCurrentMeasure() > measure) {
-                    if (measure === 1) {
-                        osmd.cursor.reset();
+                } else {
+                    while (getCurrentMeasure() > measure - 1) {
                         osmd.cursor.previous();
-                    } else {
-                        while (getCurrentMeasure() > measure - 1) {
-                            osmd.cursor.previous();
-                        }
                     }
                 }
             }

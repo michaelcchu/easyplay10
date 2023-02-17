@@ -1,6 +1,7 @@
 export default (() => {
     const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay(container);
     osmd.FollowCursor = true;
+    osmd.EngravingRules.UseXMLMeasureNumbers = false;
 
     const input = document.getElementById("input");
     input.addEventListener("change", readFile);
